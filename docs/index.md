@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Orderbook
-description: Systems portfolio — order book matching, scale story (vertical vs horizontal), transactional API, Go & Rust, observability, explicit tradeoffs
+description: Client-delivered simulated exchange backend — matching engine, scale paths (single node to horizontal), Go & Rust, Postgres, observability
 ---
 
 ![Go](https://img.shields.io/badge/Go-API-00ADD8?logo=go&logoColor=white)
@@ -11,9 +11,38 @@ description: Systems portfolio — order book matching, scale story (vertical vs
 
 ## What this is
 
-**A match engine is not CRUD.** You can scale **stateless** APIs by adding replicas; the **order book** is **mutable, in-memory state** sitting next to **durable** orders and trades in Postgres. **Scaling** that shape means knowing **what** you partition, **what** you replay, and **what** you fan out over a bus—**before** you buy more CPUs.
+This backend was **built for a client** as a **simulated exchange** stack: **price–time** matching, REST + WebSocket market data, durable orders and trades in **Postgres**, and full **observability**. It is **not** a licensed venue or custody product—the scope was **matching, APIs, persistence, and ops hooks** so the system could be **exercised and extended** responsibly.
 
-This repo is a **portfolio-grade systems slice**: working **price–time** matching (Go or optional **Rust** HTTP service), **transactional** order flow (**rollback** if matching fails), **NATS** events, **Redis** limits, **Prometheus** metrics, **stress tooling**, and docs that **name tradeoffs** instead of hiding them.
+**A match engine is not CRUD.** Stateless APIs scale by adding replicas; the **order book** is **mutable in-memory state** next to **durable** truth in the database. **Scaling** that shape means deciding **what** to partition, **what** to replay, and **what** to fan out—whether you run **one node** today or **many** tomorrow.
+
+---
+
+<div class="ob-scale-wrap" markdown="0">
+<p class="ob-scale-intro"><strong>Same codebase</strong> — from <em>one deployment</em> to <em>scaled-out</em> tiers (API replicas, matcher partitions, DB replicas). The animation is decorative; the table below is the real story.</p>
+<div class="ob-scale-visual">
+  <div class="ob-scale-card ob-scale-card--single">
+    <h4>Single-node path</h4>
+    <p>One API process, in-process Go matcher or Rust on the side, one Postgres. Vertical scale: CPU, RAM, disk.</p>
+    <div class="ob-bars ob-bars--single"><div class="ob-bar" aria-hidden="true"></div></div>
+  </div>
+  <div class="ob-scale-flow"><span aria-hidden="true">→</span></div>
+  <div class="ob-scale-card ob-scale-card--scale">
+    <h4>At scale (next tiers)</h4>
+    <p>Stateless API behind LB · matcher <strong>sharded by symbol</strong> · Postgres replicas / partitioning · shared bus for WS.</p>
+    <div class="ob-bars ob-bars--scale">
+      <div class="ob-bar" aria-hidden="true"></div>
+      <div class="ob-bar" aria-hidden="true"></div>
+      <div class="ob-bar" aria-hidden="true"></div>
+      <div class="ob-bar" aria-hidden="true"></div>
+      <div class="ob-bar" aria-hidden="true"></div>
+      <div class="ob-bar" aria-hidden="true"></div>
+      <div class="ob-bar" aria-hidden="true"></div>
+      <div class="ob-bar" aria-hidden="true"></div>
+    </div>
+  </div>
+</div>
+<p class="ob-scale-caption">Bars animate throughput “shape”: one pillar vs many parallel workers — not a benchmark, just a visual metaphor.</p>
+</div>
 
 ---
 
@@ -34,20 +63,18 @@ This repo is a **portfolio-grade systems slice**: working **price–time** match
                └──► Postgres (TRUTH) ──► replicas · partition · tune
 ```
 
-**The honest gap:** this repo **implements** the vertical path and **documents** the horizontal one (routing, replay, WS fan-out). That’s the same **story** you’d walk through in a system-design interview—**with code** behind the API and matcher.
-
-[**SCALING.md**](SCALING.md) has the diagrams (vertical vs horizontal). [**TRADEOFFS.md**](TRADEOFFS.md) has the **why we didn’t** async-everything / auth / multi-pod WS yet.
+**Delivery scope:** This repo **implements** the vertical / single-node path and **documents** the horizontal path (routing, replay, WS fan-out) for when the client grows past one box. [**SCALING.md**](SCALING.md) has the diagrams; [**TRADEOFFS.md**](TRADEOFFS.md) records **why** we didn’t ship async-everything, auth, or multi-pod WebSockets in v1.
 
 ---
 
-## What a reviewer can verify quickly
+## What you can verify in the code
 
 | Signal | Where it shows up |
 |--------|-------------------|
 | **Correctness under failure** | Matcher error → **HTTP 502**, DB **transaction rolled back** (integration tests) |
 | **Scale literacy** | Stateless vs **stateful** matcher · **partitioning** story · WS **limits** named |
-| **Operational sense** | `/metrics`, Grafana, **`cmd/stress`**, rate-limit behavior documented |
-| **Judgment** | Tradeoff **ledger** below—not every shortcut is an accident |
+| **Operational hooks** | `/metrics`, Grafana, **`cmd/stress`**, rate-limit behavior documented |
+| **Explicit tradeoffs** | Ledger below—decisions are **named**, not hidden |
 
 ---
 
@@ -74,7 +101,7 @@ This repo is a **portfolio-grade systems slice**: working **price–time** match
 | Redis rate limit fail-open | Stay available if Redis blips | Weaker abuse protection during that window |
 | WebSocket hub in-process | Simple broadcast | **Extra design** for many API replicas (NATS bridge, etc.) |
 
-### Next implementation steps (pick one)
+### Next implementation steps (when the client is ready)
 
 1. **Matcher replay** — rebuild the book from Postgres or an event log after restart.  
 2. **Symbol routing** — deterministic **hash(`symbol`) → matcher** instance.  

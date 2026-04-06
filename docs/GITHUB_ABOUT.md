@@ -10,11 +10,11 @@ The repository **description** and **website** are edited on GitHub, not in git:
 
 **Short:**
 
-> Simulated exchange backend: Go API, optional Rust matcher, Postgres, Redis, NATS, Prometheus. Price–time matching, REST + WebSocket. Docs in `/docs` (architecture, scaling, tradeoffs).
+> Simulated exchange backend (client project): Go API, optional Rust matcher, Postgres, Redis, NATS, Prometheus. Price–time matching, REST + WebSocket. Docs: architecture, scaling, tradeoffs.
 
 **One line:**
 
-> Go + optional Rust order book, Postgres, observability — portfolio project. Documentation: `/docs`.
+> Client-delivered simulated exchange stack — Go & Rust matching, Postgres, observability. Documentation in `/docs`.
 
 Replace or extend with your own emphasis; stay under the character limit shown in the UI.
 

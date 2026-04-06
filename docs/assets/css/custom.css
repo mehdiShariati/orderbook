@@ -1,0 +1,196 @@
+/* Orderbook docs — scalability visual (GitHub Pages / Cayman) */
+.ob-scale-wrap {
+  margin: 1.75rem 0 2rem;
+}
+
+.ob-scale-intro {
+  text-align: center;
+  font-size: 0.95rem;
+  color: #57606a;
+  margin-bottom: 1rem;
+}
+
+.ob-scale-visual {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  justify-content: center;
+  gap: 0.75rem 1.5rem;
+  padding: 1.25rem 1rem;
+  border-radius: 10px;
+  background: linear-gradient(160deg, #f6f8fa 0%, #eef1f4 50%, #e9ecef 100%);
+  border: 1px solid #d8dee4;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.75);
+}
+
+.ob-scale-card {
+  flex: 1 1 220px;
+  max-width: 300px;
+  padding: 1rem 1rem 1.1rem;
+  border-radius: 8px;
+  background: #fff;
+  text-align: center;
+  border: 2px solid #d0d7de;
+  position: relative;
+  overflow: hidden;
+}
+
+.ob-scale-card h4 {
+  margin: 0 0 0.5rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #1f2328;
+}
+
+.ob-scale-card p {
+  margin: 0;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: #656d76;
+}
+
+.ob-scale-card--single {
+  border-color: #0969da;
+  box-shadow: 0 2px 8px rgba(9, 105, 218, 0.12);
+}
+
+.ob-scale-card--scale {
+  border-color: #1a7f37;
+  animation: ob-card-glow 3s ease-in-out infinite;
+}
+
+@keyframes ob-card-glow {
+  0%,
+  100% {
+    box-shadow: 0 2px 8px rgba(26, 127, 55, 0.15);
+  }
+  50% {
+    box-shadow: 0 4px 20px rgba(26, 127, 55, 0.28);
+  }
+}
+
+.ob-scale-flow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  padding: 0 0.25rem;
+}
+
+.ob-scale-flow span {
+  display: inline-block;
+  font-size: 1.75rem;
+  color: #656d76;
+  line-height: 1;
+  animation: ob-flow-shift 2s ease-in-out infinite;
+}
+
+@keyframes ob-flow-shift {
+  0%,
+  100% {
+    transform: translateX(0);
+    opacity: 0.75;
+  }
+  50% {
+    transform: translateX(5px);
+    opacity: 1;
+  }
+}
+
+.ob-bars {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 5px;
+  height: 52px;
+  margin-top: 0.85rem;
+  padding-top: 0.5rem;
+}
+
+.ob-bars--single .ob-bar {
+  width: 16px;
+  height: 70%;
+  background: linear-gradient(180deg, #54aeff 0%, #0969da 100%);
+  border-radius: 3px 3px 0 0;
+  animation: ob-bar-idle 2.2s ease-in-out infinite;
+}
+
+.ob-bars--scale .ob-bar {
+  width: 8px;
+  background: linear-gradient(180deg, #3fb950 0%, #1a7f37 100%);
+  border-radius: 2px 2px 0 0;
+  animation: ob-bar-wave 1.35s ease-in-out infinite;
+}
+
+.ob-bars--scale .ob-bar:nth-child(1) {
+  height: 38%;
+  animation-delay: 0s;
+}
+.ob-bars--scale .ob-bar:nth-child(2) {
+  height: 62%;
+  animation-delay: 0.1s;
+}
+.ob-bars--scale .ob-bar:nth-child(3) {
+  height: 45%;
+  animation-delay: 0.2s;
+}
+.ob-bars--scale .ob-bar:nth-child(4) {
+  height: 78%;
+  animation-delay: 0.3s;
+}
+.ob-bars--scale .ob-bar:nth-child(5) {
+  height: 52%;
+  animation-delay: 0.4s;
+}
+.ob-bars--scale .ob-bar:nth-child(6) {
+  height: 68%;
+  animation-delay: 0.5s;
+}
+.ob-bars--scale .ob-bar:nth-child(7) {
+  height: 42%;
+  animation-delay: 0.6s;
+}
+.ob-bars--scale .ob-bar:nth-child(8) {
+  height: 58%;
+  animation-delay: 0.7s;
+}
+
+@keyframes ob-bar-idle {
+  0%,
+  100% {
+    transform: scaleY(1);
+    opacity: 0.9;
+  }
+  50% {
+    transform: scaleY(1.08);
+    opacity: 1;
+  }
+}
+
+@keyframes ob-bar-wave {
+  0%,
+  100% {
+    transform: scaleY(1);
+    opacity: 0.82;
+  }
+  50% {
+    transform: scaleY(1.18);
+    opacity: 1;
+  }
+}
+
+.ob-scale-caption {
+  margin-top: 1rem;
+  text-align: center;
+  font-size: 0.8rem;
+  color: #656d76;
+  font-style: italic;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ob-scale-card--scale,
+  .ob-scale-flow span,
+  .ob-bar {
+    animation: none !important;
+  }
+}

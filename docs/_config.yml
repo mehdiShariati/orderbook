@@ -1,7 +1,7 @@
 # GitHub Pages + Jekyll — see GITHUB_PAGES.md
 # If the site loads without CSS, set baseurl to "/YOUR-REPO-NAME" (must match the GitHub repo name).
 title: Orderbook
-description: Simulated exchange backend — matching engine, Go API, optional Rust matcher, Postgres, observability
+description: Technical documentation — client-delivered simulated exchange backend, matching engine, scaling paths, Go & Rust, Postgres, observability
 theme: jekyll-theme-cayman
 
 baseurl: "/orderbook"

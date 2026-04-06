@@ -1,0 +1,14 @@
+# GitHub Pages (Jekyll) — see GITHUB_PAGES.md to enable.
+# If your repository name is not "orderbook", change baseurl to "/YOUR-REPO-NAME".
+title: Orderbook
+description: Documentation for the simulated exchange backend
+theme: jekyll-theme-minimal
+
+# Project site URL: https://<user>.github.io/<repo>/
+baseurl: "/orderbook"
+url: ""
+
+plugins:
+  - jekyll-relative-links
+
+markdown: kramdown

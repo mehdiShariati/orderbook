@@ -4,6 +4,13 @@
 
 This repo is a **portfolio-quality systems project**: real persistence, observability, and documentation—not a production exchange (no custody, no regulatory stack).
 
+**Documentation on GitHub**
+
+- Browse the folder: **[`docs/`](docs/)** (table of contents: [`docs/README.md`](docs/README.md)).
+- Optional **site URL** after you enable Pages: `https://<your-username>.github.io/<repository>/` — steps in [`docs/GITHUB_PAGES.md`](docs/GITHUB_PAGES.md).
+- No Pages? Use the repo path as your doc link: `https://github.com/<user>/<repo>/tree/main/docs`.
+- **Repo description (About box):** suggested **Description** + **Website** text to paste in GitHub → [`docs/GITHUB_ABOUT.md`](docs/GITHUB_ABOUT.md).
+
 ---
 
 ## If you’re reviewing this in a hurry
@@ -154,6 +161,8 @@ go run -buildvcs=false ./cmd/stress -url http://localhost:8080 -rate 1500 -c 120
 
 | Doc | Contents |
 |-----|----------|
+| [GITHUB_PAGES.md](docs/GITHUB_PAGES.md) | Enable GitHub Pages for `docs/` |
+| [GITHUB_ABOUT.md](docs/GITHUB_ABOUT.md) | GitHub **About** description + website (copy-paste) |
 | [ORDERBOOK.md](docs/ORDERBOOK.md) | Architecture, API, diagrams |
 | [SCALING.md](docs/SCALING.md) | Order book primer, vertical vs horizontal scaling (Mermaid), growth path |
 | [TRADEOFFS.md](docs/TRADEOFFS.md) | Design decisions and downsides |

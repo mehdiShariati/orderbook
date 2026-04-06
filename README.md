@@ -7,7 +7,9 @@ Built and delivered for a client as a simulated exchange backend — focused on 
 
 👉 Read the full breakdown: [Medium article](https://medium.com/@mehdishariati/i-built-a-matching-engine-and-it-completely-changed-how-i-think-about-backend-systems-36d64d6a4d49)
 
-![Architecture](docs/images/mermaid-diagram.png)
+<p align="center">
+  <img src="docs/images/mermaid-diagram.png" width="700"/>
+</p>
 
 ## Why this project?
 

@@ -1,14 +1,19 @@
-# GitHub Pages (Jekyll) — see GITHUB_PAGES.md to enable.
-# If your repository name is not "orderbook", change baseurl to "/YOUR-REPO-NAME".
+# GitHub Pages + Jekyll — see GITHUB_PAGES.md
+# If the site loads without CSS, set baseurl to "/YOUR-REPO-NAME" (must match the GitHub repo name).
 title: Orderbook
-description: Documentation for the simulated exchange backend
-theme: jekyll-theme-minimal
+description: Simulated exchange backend — matching engine, Go API, optional Rust matcher, Postgres, observability
+theme: jekyll-theme-cayman
 
-# Project site URL: https://<user>.github.io/<repo>/
 baseurl: "/orderbook"
-url: ""
+url: "https://mehdishariati.github.io"
 
 plugins:
   - jekyll-relative-links
+  - jekyll-github-metadata
 
 markdown: kramdown
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - vendor

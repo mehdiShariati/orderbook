@@ -22,13 +22,18 @@ Replace or extend with your own emphasis; stay under the character limit shown i
 
 ## Website URL
 
-Paste **one** of:
+**This project (GitHub Pages):**
 
-| What | Example (replace `USER` / `REPO`) |
-|------|-----------------------------------|
-| Docs folder (always works) | `https://github.com/USER/REPO/tree/main/docs` |
-| Docs README | `https://github.com/USER/REPO/blob/main/docs/README.md` |
-| GitHub Pages (after you enable it) | `https://USER.github.io/REPO/` |
+`https://mehdishariati.github.io/orderbook/`
+
+Paste that into the repo **About** → **Website** field.
+
+**Other options:**
+
+| What | URL pattern |
+|------|-------------|
+| Docs folder on GitHub | `https://github.com/mehdiShariati/orderbook/tree/main/docs` |
+| GitHub Pages (generic) | `https://<user>.github.io/<repo>/` |
 
 ---
 

@@ -1,38 +1,54 @@
-# Publishing docs on GitHub Pages
+# Publishing documentation on GitHub Pages
 
-This repository’s documentation lives under **`docs/`**. You can serve it as a site at:
+**This repository’s live documentation:**
 
-`https://<your-username>.github.io/<repository-name>/`
+**https://mehdishariati.github.io/orderbook/**
 
-## Steps
+Generic pattern: **`https://<username>.github.io/<repository>/`**
 
-1. Push these files to GitHub (`docs/_config.yml`, `docs/index.md`, etc.).
-2. On GitHub: **Settings** → **Pages** (left sidebar).
-3. Under **Build and deployment** → **Source**, choose **GitHub Actions** *or* **Deploy from a branch**:
-   - **Branch:** `main` (or your default branch).
-   - **Folder:** `/docs` (the **`/docs`** folder in the root of the repo).
-4. Save. After a minute or two, GitHub shows the site URL at the top of the Pages settings page.
+---
 
-## If the site looks broken (CSS or links)
+## Recommended: GitHub Actions (this repo includes a workflow)
 
-In **`docs/_config.yml`**, set **`baseurl`** to your repository name with slashes:
+1. Push the latest code (including `.github/workflows/pages.yml` and `docs/`).
+2. On GitHub: **Settings** → **Pages**.
+3. Under **Build and deployment** → **Source**, select **GitHub Actions** (not “Deploy from a branch” if you want this workflow to own deploys).
+4. Open the **Actions** tab → run **Deploy documentation to Pages** (or push to `main` / `master` to trigger it).
+5. When the job is green, **Pages** settings shows the live URL. Paste that URL into the repo **About** → **Website** field.
 
-```yaml
-baseurl: "/YOUR-REPO-NAME"
+**If the site has no styling** (plain HTML): edit **`docs/_config.yml`** and set **`baseurl`** to `"/YOUR-REPO-NAME"` (leading slash, exact GitHub repo name). Commit and push; the workflow rebuilds.
+
+---
+
+## Alternative: deploy from the `docs/` folder (no Actions)
+
+1. **Settings** → **Pages** → **Source:** **Deploy from a branch**.
+2. Branch: **`main`** or **`master`**, folder **`/docs`**.
+3. Save and wait for the build.
+
+Use **either** Actions **or** branch deploy—not both as competing sources.
+
+---
+
+## Local preview (optional)
+
+```bash
+cd docs
+bundle install
+bundle exec jekyll serve
 ```
 
-Example: repo `https://github.com/jane/orderbook` → `baseurl: "/orderbook"`.
+Open `http://127.0.0.1:4000/orderbook/` (path includes **`baseurl`**).
 
-If the repo is **`username.github.io`**, use `baseurl: ""` (user site, not a project site).
+---
 
 ## Mermaid diagrams
 
-GitHub’s **file** view renders Mermaid in Markdown. The default Jekyll theme here may **not** render Mermaid on the Pages site—open the doc on GitHub or rely on the architecture section in ORDERBOOK as raw Markdown.
+**ORDERBOOK.md** uses Mermaid. GitHub’s **file view** renders Mermaid; the Jekyll site may show diagrams as **fenced code** unless you add a Mermaid plugin. For diagrams, prefer opening the **`.md` file on GitHub** or read the source.
 
-## Alternative: docs URL without Pages
+---
 
-You can always link the **About** “Website” field or your README to:
+## Copy-paste for the About box
 
-`https://github.com/<user>/<repo>/tree/main/docs`
-
-No build step required.
+**Website:** `https://<username>.github.io/<repository>/`  
+More options: [GITHUB_ABOUT.md](GITHUB_ABOUT.md)

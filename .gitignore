@@ -29,3 +29,8 @@ go.work.sum
 
 # Personal notes (local only — not in version control)
 teach.md
+
+# Jekyll (local preview in docs/)
+docs/_site/
+docs/.jekyll-cache/
+docs/vendor/

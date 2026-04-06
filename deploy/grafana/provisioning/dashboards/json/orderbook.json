@@ -1,0 +1,31 @@
+{
+  "title": "Orderbook API",
+  "schemaVersion": 39,
+  "version": 1,
+  "panels": [
+    {
+      "type": "timeseries",
+      "title": "HTTP request duration (p95)",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 0 },
+      "targets": [
+        {
+          "expr": "histogram_quantile(0.95, sum(rate(http_request_duration_seconds_bucket[5m])) by (le))",
+          "legendFormat": "p95"
+        }
+      ]
+    },
+    {
+      "type": "stat",
+      "title": "Orders received (total)",
+      "gridPos": { "h": 4, "w": 6, "x": 12, "y": 0 },
+      "targets": [{ "expr": "orders_received_total" }]
+    },
+    {
+      "type": "stat",
+      "title": "Trades executed (total)",
+      "gridPos": { "h": 4, "w": 6, "x": 18, "y": 0 },
+      "targets": [{ "expr": "trades_executed_total" }]
+    }
+  ],
+  "time": { "from": "now-1h", "to": "now" }
+}

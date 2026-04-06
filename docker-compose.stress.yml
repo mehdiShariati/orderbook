@@ -1,0 +1,7 @@
+# Optional override: raise API rate limit so local stress tests are not capped at 600/min.
+# Usage:
+#   docker compose -f docker-compose.yml -f docker-compose.stress.yml up -d
+services:
+  api:
+    environment:
+      RATE_LIMIT_PER_MIN: "600000"

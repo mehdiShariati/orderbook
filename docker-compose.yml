@@ -1,0 +1,103 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: orderbook
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d orderbook"]
+      interval: 3s
+      timeout: 3s
+      retries: 15
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 3s
+      timeout: 3s
+      retries: 15
+
+  nats:
+    image: nats:2.10-alpine
+    command: ["-js", "-m", "8222"]
+    ports:
+      - "4222:4222"
+      - "8222:8222"
+
+  matcher:
+    build:
+      context: ./matcher
+      dockerfile: Dockerfile
+    environment:
+      MATCHER_ADDR: 0.0.0.0:9090
+    ports:
+      - "9090:9090"
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      matcher:
+        condition: service_started
+      nats:
+        condition: service_started
+    environment:
+      DATABASE_URL: postgres://postgres:postgres@postgres:5432/orderbook?sslmode=disable
+      REDIS_URL: redis://redis:6379/0
+      NATS_URL: nats://nats:4222
+      MATCHER_URL: http://matcher:9090
+      HTTP_ADDR: ":8080"
+      RATE_LIMIT_PER_MIN: "600"
+    ports:
+      - "8080:8080"
+
+  prometheus:
+    image: prom/prometheus:v2.51.0
+    volumes:
+      - ./deploy/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+    ports:
+      - "9091:9090"
+    depends_on:
+      - api
+
+  grafana:
+    image: grafana/grafana:10.4.2
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: admin
+      GF_USERS_ALLOW_SIGN_UP: "false"
+    volumes:
+      - ./deploy/grafana/provisioning:/etc/grafana/provisioning:ro
+    ports:
+      - "3000:3000"
+    depends_on:
+      - prometheus
+
+  otel-collector:
+    image: otel/opentelemetry-collector:0.96.1
+    command: ["--config=/etc/otel-collector.yaml"]
+    volumes:
+      - ./deploy/otel/otel-collector.yaml:/etc/otel-collector.yaml:ro
+    ports:
+      - "4317:4317"
+      - "4318:4318"
+    profiles:
+      - otel
+
+volumes:
+  pgdata:

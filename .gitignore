@@ -1,0 +1,31 @@
+# Binaries
+/bin/
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Test / coverage
+*.out
+*.test
+coverage.html
+coverage.txt
+
+# IDE / OS
+.idea/
+.vscode/
+*.swp
+.DS_Store
+Thumbs.db
+
+# Env / secrets (never commit)
+.env
+.env.*
+!.env.example
+
+# Go workspace (if used)
+go.work
+go.work.sum
+
+# Personal notes (local only — not in version control)
+teach.md
